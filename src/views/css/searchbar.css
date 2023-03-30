@@ -1,0 +1,12 @@
+input{
+  color: #fff;
+  background-color: transparent;
+  border: none;
+  border-radius: 1em;
+  outline: none;
+  width: 100%;
+  overflow: hidden;
+  letter-spacing: 2px;
+  font-size: 1rem;
+  padding: .5em 1.2em;
+}

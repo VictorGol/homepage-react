@@ -1,0 +1,28 @@
+.displaybar {
+  flex: 1;
+  margin: 1em 0;
+  width: 20em;
+  /* background-color: #ccc; */
+  overflow: auto;
+}
+
+.displaybar::-webkit-scrollbar {
+  display: none;
+}
+
+.displaylist {
+  padding: 0 1em;
+  border-radius: 1em;
+  cursor: pointer;
+  letter-spacing: 1px;
+  height: 1.8em;
+  line-height: 1.8em;
+}
+
+.displaylist:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.displaylist span{
+  color: gold;
+}

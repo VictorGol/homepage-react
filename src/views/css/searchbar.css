@@ -9,4 +9,6 @@ input{
   letter-spacing: 2px;
   font-size: 1rem;
   padding: .5em 1.2em;
+  /* caret-color:transparent; */
+  cursor: default;
 }

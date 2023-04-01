@@ -1,44 +1,30 @@
+import { highLightStr } from "../utils/index.jsx";
 import commands from "./js/constant.js";
 import "./css/displaybar.css";
 
-const listItem = (item, itemName) => (
-  <div
-    className="displaylist"
-    onClick={() => window.open(item.link)}
-    key={item.name}
-  >
-    {itemName}
-  </div>
-);
-
-function DisplayBar({ searchValue }) {
+export default function DisplayBar({ searchValue }) {
   // 搜索值为空
-  if (!searchValue) return;
-  const list = [];
+  if (!searchValue) return <div className="displaybar"></div>;
 
-  // 搜索值为*
-  if (searchValue === "*") {
-    for (let item of commands) {
-      list.push(listItem(item, item.name));
-    }
-    return <div className="displaybar">{list}</div>;
-  }
+  const x = searchValue.toLowerCase();
 
-  // 一般情况
-  const sliceName = (name, index) => (
-    <>
-      {name.slice(0, index)}
-      <span>{name.slice(index, index + searchValue.length)}</span>
-      {name.slice(index + searchValue.length)}
-    </>
+  const filterArr = commands.filter(({ name }) =>
+    x === "*" ? true : name.toLowerCase().includes(x)
   );
-  for (let item of commands) {
-    const name = item.name;
-    const ind = name.toLowerCase().indexOf(searchValue);
-    if (ind < 0) continue;
-    list.push(listItem(item, sliceName(name, ind)));
-  }
+
+  const itemName = (name, ind) =>
+    x === "*" ? name : highLightStr(name, ind, x.length);
+
+  const list = filterArr.map((v) => (
+    <div
+      className="displaylist"
+      onClick={() => window.open(v.link)}
+      key={v.name}
+      item={v}
+    >
+      {itemName(v.name, v.name.toLowerCase().indexOf(x))}
+    </div>
+  ));
+
   return <div className="displaybar">{list}</div>;
 }
-
-export default DisplayBar;

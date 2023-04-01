@@ -2,8 +2,9 @@ import "./css/searchbar.css";
 
 function SearchBar({ searchValue, onValueChange }) {
   function handleChange(e) {
-    const val = e.target.value.replace(/\.\.$/, "");
-    val !== "bgl" && document.getElementById("file")?.remove();
+    let val = e.target.value;
+    if (val !== "bgl") document.getElementById("file")?.remove();
+    if (/\.\.$/.test(val)) val = "";
     onValueChange(val);
   }
 

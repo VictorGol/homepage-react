@@ -10,6 +10,7 @@ export default function App() {
   const [img, setImg] = useState(data.img);
   const [trp, setTrp] = useState(data.trp);
   const [pos, setPos] = useState(data.pos);
+  const [blur, setBlur] = useState(data.blur);
 
   const posIndex = pos.indexOf(",");
   const posFormat = `${pos.slice(0, posIndex)}% ${pos.slice(posIndex + 1)}%`;
@@ -19,8 +20,16 @@ export default function App() {
     updateStorage({ img });
   }
 
+  function updateBlur(blur) {
+    blur = parseFloat(blur) || 0;
+    blur = blur < 0 ? 0 : blur > 100 ? 100 : blur;
+    setBlur(blur);
+    updateStorage({ blur });
+  }
+
   function updateTrp(trp) {
     trp = parseFloat(trp) || 0;
+    trp = trp < 0 ? 0 : trp > 1 ? 1 : trp;
     setTrp(trp);
     updateStorage({ trp });
   }
@@ -50,6 +59,8 @@ export default function App() {
           updateImg(x.slice(3));
         } else if (x.startsWith("trp ") || x === "trp") {
           updateTrp(x.slice(4));
+        } else if (x.startsWith("blur ") || x === "blur") {
+          updateBlur(x.slice(5));
         } else if (x === "bgl") {
           const displaybar = document.querySelector(".displaybar");
           displaybar.innerHTML = `<input type="file" name="img" id="file" accept="image/jpeg,image/jpg,image/png">`;
@@ -59,17 +70,17 @@ export default function App() {
           const ind = x.indexOf(" ");
           const url =
             ind == -1
-              ? searchEngine.brave + x
+              ? searchEngine.bing + x
               : searchEngine[x.slice(0, ind)]
               ? searchEngine[x.slice(0, ind)] + x.slice(ind + 1)
-              : searchEngine.brave + x;
+              : searchEngine.bing + x;
           window.open(url);
         }
       },
     };
 
     const action = handleKeyAction[e.key];
-    if(action) action();
+    if (action) action();
   }
 
   const bgStyle = {
@@ -82,6 +93,7 @@ export default function App() {
 
   const bgWrap = {
     backgroundColor: `rgba(0,0,0,${trp})`,
+    backdropFilter: `blur(${blur}px)`,
   };
 
   return (

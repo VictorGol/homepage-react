@@ -16,7 +16,7 @@ yarn dev
 
 # 功能
 
-输入 `bg 图片链接` 可更换背景图片，例如 `bg https://images.unsplash.com/photo-1668876303651-ef4dc5814cc0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2372&q=80`
+输入 `bg 图片链接` 可更换背景图片，例如 `bg https://xxxx`
 
 输入 `bgl` 可选择本地图片作为背景图片
 
@@ -32,7 +32,9 @@ yarn dev
 
 按上下左右键可以移动背景图到合适位置
 
-与上一版的区别：少了一些我认为不需要的功能
+`blur`可以设置背景模糊程度，用法与`trp`相同，取值从`0-100`，越大越模糊
+
+与上一版的区别：少了一些我认为不需要的功能，加了高亮，以及少了一些样式
 
 # 打包后本地运行
 
@@ -88,8 +90,16 @@ http-server -p 5555 -o index.html
 
 是同样的效果
 
+# 有啥优点
+
+页面超级干净，可以设置背景图
+
 # 其他
 
 请教了chatgpt帮我优化了代码，好看了许多
 
 和纯用三剑客来写相比，要运行打包后的index.html，不能在浏览器直接打开index.html，只能起一个服务，各有优劣。不过用react写肯定更快就是了。
+
+# 问题记录
+
+input框设置outline为none时，如果给背景用backdropFilter设置模糊效果，在input获取焦点时，页面会闪烁。outline的宽度为0，或者颜色透明，都会出现这种情况。解决办法一是将颜色接近透明，但不完全透明，这样不认真看就看不见。解决办法二是不设置模糊了。

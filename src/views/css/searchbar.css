@@ -3,7 +3,7 @@ input{
   background-color: transparent;
   border: none;
   border-radius: 1em;
-  outline: none;
+  outline: rgba(255,255,255,.01) dashed 1px;
   width: 100%;
   overflow: hidden;
   letter-spacing: 2px;

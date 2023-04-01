@@ -5,6 +5,7 @@ function SearchBar({ searchValue, onValueChange }) {
     let val = e.target.value;
     if (val !== "bgl") document.getElementById("file")?.remove();
     if (/\.\.$/.test(val)) val = "";
+    title.innerHTML = val || "⚪";
     onValueChange(val);
   }
 
@@ -17,5 +18,7 @@ function SearchBar({ searchValue, onValueChange }) {
     />
   );
 }
+
+const title = document.getElementsByTagName("title")[0];
 
 export default SearchBar;

@@ -106,6 +106,7 @@ export default function App() {
       <div className="app-wrap" style={bgWrap}>
         <SearchBar searchValue={searchValue} onValueChange={setSearchValue} />
         <DisplayBar searchValue={searchValue} />
+        <div style={{ height: "2em" }}></div>
       </div>
     </div>
   );

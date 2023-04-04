@@ -21,6 +21,7 @@ export default function DisplayBar({ searchValue }) {
       onClick={() => window.open(v.link)}
       key={v.name}
       item={v}
+      title={v.desc}
     >
       {itemName(v.name, v.name.toLowerCase().indexOf(x))}
     </div>

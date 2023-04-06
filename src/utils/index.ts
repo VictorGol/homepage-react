@@ -1,20 +1,23 @@
+type ImgProcess = (img: string) => void;
+
 /** 图片转base64 */
-export function fileImport(imgProcess) {
-  let file = document.getElementById("file").files[0];
-  if (!file) return;
+export function fileImport(imgProcess: ImgProcess): void {
+  const fileInput = document.getElementById("file") as HTMLInputElement;
+  if (!fileInput || !fileInput.files?.[0]) return;
+
+  const file = fileInput.files[0];
   const blob = new Blob([file], { type: file.type ?? "application/*" });
   // const blobUrl = window.URL.createObjectURL(blob)
   let reader = new FileReader();
   reader.onload = () => {
-    file.size > 2097152
-      ? compression(reader.result, imgProcess)
-      : imgProcess(reader.result);
+    const img = reader.result as string;
+    file?.size > 2097152 ? compression(img, imgProcess) : imgProcess(img);
   };
   reader.readAsDataURL(blob);
 }
 
 /** 压缩图片 */
-function compression(img, imgProcess) {
+function compression(img: string, imgProcess: ImgProcess): void {
   let image = new Image();
   image.setAttribute("crossOrigin", "anonymous");
   image.src = img;
@@ -23,9 +26,8 @@ function compression(img, imgProcess) {
   image.onload = () => {
     myCanvas.width = image.width;
     myCanvas.height = image.height;
-    ctx.drawImage(image, 0, 0);
+    ctx?.drawImage(image, 0, 0);
     const url = myCanvas.toDataURL("image/jpeg", 0.7);
     imgProcess(url);
   };
 }
-

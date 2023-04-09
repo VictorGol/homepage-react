@@ -10,7 +10,7 @@ function SearchBar({ searchValue, onValueChange }) {
     onValueChange(val);
   };
 
-  return (
+  const input = (
     <input
       type="text"
       value={searchValue}
@@ -18,6 +18,8 @@ function SearchBar({ searchValue, onValueChange }) {
       spellCheck={false}
     />
   );
+
+  return input;
 }
 
 const title = document.getElementsByTagName("title")[0];

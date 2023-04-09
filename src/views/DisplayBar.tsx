@@ -14,24 +14,21 @@ function DisplayBar({ searchValue }: Prop) {
 
   const x: string = searchValue.toLowerCase();
 
-  const filterArr: Command[] = [];
-  for (let v of commands) {
-    if (x === "*" || v.name.toLowerCase().includes(x)) {
-      filterArr.push(v);
-      continue;
-    }
-    for (let a of v.tag) {
-      if (!a.toLowerCase().includes(x)) continue;
-      const obj: Command = { ...v, name: v.name + `[${a}]` };
-      filterArr.push(obj);
-      break;
-    }
-  }
+  const filterArr: Command[] = commands
+    .map((item) => ({ ...item, tag: [...item.tag] }))
+    .filter((v) => {
+      if (x === "*" || v.name.toLowerCase().includes(x)) return true;
+      return v.tag.some((a) => {
+        if (!a.toLowerCase().includes(x)) return false;
+        v.name += `[${a}]`;
+        return true;
+      });
+    });
 
-  const itemName = (name: string, ind: number): string | JSX.Element =>
-    x === "*" ? name : highLightStr(name, ind, x.length);
+  const itemName = (name: string, ind: number) =>
+    x === "*" ? <>{name}</> : highLightStr(name, ind, x.length);
 
-  const list: JSX.Element[] = filterArr.map((v) => (
+  const list = filterArr.map((v) => (
     <div
       className="displaylist"
       onClick={() => window.open(v.link)}

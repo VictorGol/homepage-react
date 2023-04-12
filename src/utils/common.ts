@@ -1,4 +1,4 @@
-interface Storage {
+export interface Storage {
   img: string;
   trp: number;
   posx: number;
@@ -10,11 +10,13 @@ interface Obj {
   [key: string]: any;
 }
 
-function getStorage() {
+type ImgProcess = (img: string) => void;
+
+export function getStorage() {
   return localStorage.getItem("homepage") as string;
 }
 
-function setStorage(obj: Storage) {
+export function setStorage(obj: Storage) {
   const str = JSON.stringify(obj);
   return localStorage.setItem("homepage", str);
 }
@@ -25,9 +27,15 @@ export function updateStorage(updateElement: Obj) {
   setStorage(objNew);
 }
 
-export function inputFocus() {
-  const input = document.getElementsByTagName("input")[0];
-  input.focus();
+export function updateSetting(key: string, value: any, upperLimit?: number) {
+  if (upperLimit) {
+    value = parseFloat(value) || 0;
+    value = value < 0 ? 0 : value > upperLimit ? upperLimit : value;
+  }
+  const obj = {};
+  obj[key] = value;
+  updateStorage(obj);
+  return value;
 }
 
 export const searchEngine: Obj = {
@@ -41,17 +49,34 @@ export const searchEngine: Obj = {
   petal: "https://petalsearch.com/search?query=",
 };
 
-export function init(): Storage {
-  const str = getStorage();
-  if (str) return JSON.parse(str);
+/** 图片转base64 */
+export function fileImport(imgProcess: ImgProcess): void {
+  const fileInput = document.getElementById("file") as HTMLInputElement;
+  if (!fileInput || !fileInput.files?.[0]) return;
 
-  const obj: Storage = {
-    img: "https://images.unsplash.com/photo-1680100612420-e57b14dd2c7e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2564&q=80",
-    trp: 0,
-    posx: 50,
-    posy: 50,
-    blur: 0,
+  const file = fileInput.files[0];
+  const blob = new Blob([file], { type: file.type ?? "application/*" });
+  // const blobUrl = window.URL.createObjectURL(blob)
+  let reader = new FileReader();
+  reader.onload = () => {
+    const img = reader.result as string;
+    file?.size > 2097152 ? compression(img, imgProcess) : imgProcess(img);
   };
-  setStorage(obj);
-  return obj;
+  reader.readAsDataURL(blob);
+}
+
+/** 压缩图片 */
+function compression(img: string, imgProcess: ImgProcess): void {
+  let image = new Image();
+  image.setAttribute("crossOrigin", "anonymous");
+  image.src = img;
+  let myCanvas = document.createElement("canvas");
+  let ctx = myCanvas.getContext("2d");
+  image.onload = () => {
+    myCanvas.width = image.width;
+    myCanvas.height = image.height;
+    ctx?.drawImage(image, 0, 0);
+    const url = myCanvas.toDataURL("image/jpeg", 0.7);
+    imgProcess(url);
+  };
 }

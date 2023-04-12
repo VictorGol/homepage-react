@@ -1,74 +1,34 @@
 import SearchBar from "./views/SearchBar";
 import DisplayBar from "./views/DisplayBar";
 import "./App.css";
-import React, { useState } from "react";
-import { init, updateStorage, inputFocus, searchEngine } from "./utils/common";
-import { fileImport } from "./utils/index.js";
+import React from "react";
+import { useImmerReducer } from "use-immer";
+import { Storage, setStorage, fileImport } from "./utils/common";
+import { useApp } from "./utils/reducer";
 
 export default function App() {
-  const [searchValue, setSearchValue] = useState("");
-  const [state, setState] = useState({
-    img: data.img,
-    trp: data.trp,
-    posx: data.posx,
-    posy: data.posy,
-    blur: data.blur,
+  const [state, dispatch] = useImmerReducer(useApp, {
+    ...storage,
+    searchValue: "",
   });
-  const { img, trp, posx, posy, blur } = state;
-
-  const updateSetting = (key: string, value: any, upperLimit?: number) => {
-    if (upperLimit) {
-      value = parseFloat(value) || 0;
-      value = value < 0 ? 0 : value > upperLimit ? upperLimit : value;
-    }
-    const obj = {};
-    obj[key] = value;
-    setState({ ...state, ...obj });
-    updateStorage(obj);
-  };
-
-  const handleChange = () => {
-    fileImport((img: string) => updateSetting("img", img));
-  };
+  const { searchValue, img, trp, posx, posy, blur } = state;
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
-    const x = searchValue.trim();
-
-    const handleKeyAction = {
-      ArrowUp: () => updateSetting("posy", posy - 1, 100),
-      ArrowDown: () => updateSetting("posy", posy + 1, 100),
-      ArrowLeft: () => updateSetting("posx", posx - 1, 100),
-      ArrowRight: () => updateSetting("posx", posx + 1, 100),
-      Enter: () => {
-        if (x.startsWith("bg http")) {
-          updateSetting("img", x.slice(3));
-        } else if (x.startsWith("trp ") || x === "trp") {
-          updateSetting("trp", x.slice(4), 1);
-        } else if (x.startsWith("blur ") || x === "blur") {
-          updateSetting("blur", x.slice(5), 100);
-        } else if (x === "bgl") {
-          const displaybar = document.querySelector(
-            ".displaybar"
-          ) as HTMLElement;
-          displaybar.innerHTML = `<input type="file" name="img" id="file" accept="image/jpeg,image/jpg,image/png">`;
-          const file = document.getElementById("file") as HTMLElement;
-          file.onchange = handleChange;
-        } else {
-          const ind = x.indexOf(" ");
-          const url =
-            ind == -1
-              ? searchEngine.bing + x
-              : searchEngine[x.slice(0, ind)]
-              ? searchEngine[x.slice(0, ind)] + x.slice(ind + 1)
-              : searchEngine.bing + x;
-          window.open(url);
-        }
-      },
-    };
-
-    const action = handleKeyAction[e.key];
-    if (action) action();
+    if (e.key === "Enter" && searchValue.trim() === "bgl") {
+      const displaybar = document.querySelector(".displaybar") as HTMLElement;
+      displaybar.innerHTML = `<input type="file" name="img" id="file" accept="image/jpeg,image/jpg,image/png">`;
+      const file = document.getElementById("file") as HTMLElement;
+      file.onchange = () =>
+        fileImport((img: string) => dispatch({ type: "bgl", img }));
+      return;
+    }
+    dispatch({ type: "keydown", key: e.key });
   };
+
+  function handleClick() {
+    const input = document.getElementsByTagName("input")[0];
+    input.focus();
+  }
 
   const bgStyle: React.CSSProperties = {
     backgroundImage: `url(${img})`,
@@ -88,14 +48,26 @@ export default function App() {
       className="app"
       style={bgStyle}
       onKeyDown={handleKeyDown}
-      onClick={inputFocus}
+      onClick={handleClick}
     >
       <div className="app-wrap" style={bgWrap}>
-        <SearchBar searchValue={searchValue} onValueChange={setSearchValue} />
+        <SearchBar searchValue={searchValue} dispatch={dispatch} />
         <DisplayBar searchValue={searchValue} />
       </div>
     </div>
   );
 }
 
-const data = init();
+const storage = (function () {
+  const str = localStorage.getItem("homepage") as string;
+  if (str) return JSON.parse(str);
+  const obj: Storage = {
+    img: "https://images.unsplash.com/photo-1680100612420-e57b14dd2c7e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2564&q=80",
+    trp: 0,
+    posx: 50,
+    posy: 50,
+    blur: 0,
+  };
+  setStorage(obj);
+  return obj;
+})();

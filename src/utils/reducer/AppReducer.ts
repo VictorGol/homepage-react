@@ -24,6 +24,7 @@ function useApp(draft: AppState, action: AppAction) {
   switch (action.type) {
     case "searchValueChange": {
       draft.searchValue = action.searchValue ?? "";
+      break;
     }
     case "keydown": {
       const key = action.key;
@@ -59,12 +60,14 @@ function useApp(draft: AppState, action: AppAction) {
       };
       const a = handleKeyAction[key];
       a && a();
+      break;
     }
     case "bgl": {
       const img = action.img;
       if (!img) return;
       updateStorage({ img });
       draft.img = img;
+      break;
     }
     default: {
       throw Error("Unknown action: " + action.type);

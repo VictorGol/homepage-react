@@ -1,11 +1,11 @@
 import "./css/bac.css";
-import React, { useContext } from "react";
+import React from "react";
 import { fileImport } from "../utils/common";
-import { AppContext, AppDispatchContext } from "../utils/context/appContext";
+import { useAppState, useAppDispatch } from "../utils/context/appContext";
 
 export default function Bac({ children }) {
-  const { searchValue, img, trp, posx, posy, blur } = useContext(AppContext);
-  const dispatch = useContext(AppDispatchContext);
+  const { searchValue, img, trp, posx, posy, blur } = useAppState();
+  const dispatch = useAppDispatch();
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
     if (e.key === "Enter" && searchValue.trim() === "bgl") {

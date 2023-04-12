@@ -1,11 +1,13 @@
 import { highLightStr } from "../utils/comp";
 import { commands, Command } from "./js/constant";
 import "./css/displaybar.css";
-import React, { useContext } from "react";
-import { appContext } from "../utils/context";
+import React from "react";
 
-function DisplayBar() {
-  const { searchValue } = useContext(appContext);
+interface Prop {
+  searchValue: string;
+}
+
+function DisplayBar({ searchValue }: Prop) {
   if (!searchValue) {
     return <div className="displaybar"></div>;
   }

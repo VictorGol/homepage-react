@@ -5,7 +5,6 @@ import React from "react";
 import { useImmerReducer } from "use-immer";
 import { Storage, setStorage, fileImport } from "./utils/common";
 import { useApp } from "./utils/reducer";
-import { appContext } from "./utils/context";
 
 export default function App() {
   const [state, dispatch] = useImmerReducer(useApp, {
@@ -44,8 +43,6 @@ export default function App() {
     backdropFilter: `blur(${blur}px)`,
   };
 
-  const provideValue = { searchValue, dispatch };
-
   return (
     <div
       className="app"
@@ -54,10 +51,8 @@ export default function App() {
       onClick={handleClick}
     >
       <div className="app-wrap" style={bgWrap}>
-        <appContext.Provider value={provideValue}>
-          <SearchBar />
-          <DisplayBar />
-        </appContext.Provider>
+        <SearchBar searchValue={searchValue} dispatch={dispatch} />
+        <DisplayBar searchValue={searchValue} />
       </div>
     </div>
   );

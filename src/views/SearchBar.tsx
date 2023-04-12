@@ -1,16 +1,13 @@
 import "./css/searchbar.css";
-import React, { useContext } from "react";
-import { appContext } from "../utils/context";
+import React from "react";
 
-function SearchBar() {
-  const { searchValue, dispatch } = useContext(appContext);
-
+function SearchBar({ searchValue, dispatch }) {
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     let val = e.target.value;
     if (val !== "bgl") document.getElementById("file")?.remove();
     if (/\.\.$/.test(val)) val = "";
     title.innerHTML = val || "⚪";
-    dispatch && dispatch({ type: "searchValueChange", searchValue: val });
+    dispatch({ type: "searchValueChange", searchValue: val });
   };
 
   const input = (

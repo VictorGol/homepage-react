@@ -1,13 +1,11 @@
-import { highLightStr } from "../utils/comp";
-import { commands, Command } from "./js/constant";
 import "./css/displaybar.css";
 import React from "react";
+import { useAppState } from "../utils/context/appContext";
+import { highLightStr } from "../utils/comp";
+import { commands, Command } from "./js/constant";
 
-interface Prop {
-  searchValue: string;
-}
-
-function DisplayBar({ searchValue }: Prop) {
+function DisplayBar() {
+  const { searchValue } = useAppState();
   if (!searchValue) {
     return <div className="displaybar"></div>;
   }

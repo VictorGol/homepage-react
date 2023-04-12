@@ -1,23 +1,26 @@
-import { updateStorage, searchEngine, updateSetting } from "../../utils/common";
+import React, { Context, Dispatch, createContext, useContext } from "react";
+import { useImmerReducer } from "use-immer";
+import {
+  setStorage,
+  Storage,
+  updateStorage,
+  searchEngine,
+  updateSetting,
+} from "../common";
 
-interface AppState {
-  searchValue: string;
-  img: string;
-  trp: number;
-  posx: number;
-  posy: number;
-  blur: number;
-}
+export function AppProvider({ children }) {
+  const [state, dispatch] = useImmerReducer(useApp, {
+    ...storage,
+    searchValue: "",
+  });
 
-interface AppAction {
-  type: string;
-  key?: string;
-  searchValue?: string;
-  img?: string;
-  trp?: number;
-  posx?: number;
-  posy?: number;
-  blur?: number;
+  return (
+    <AppContext.Provider value={state}>
+      <AppDispatchContext.Provider value={dispatch}>
+        {children}
+      </AppDispatchContext.Provider>
+    </AppContext.Provider>
+  );
 }
 
 function useApp(draft: AppState, action: AppAction) {
@@ -75,4 +78,54 @@ function useApp(draft: AppState, action: AppAction) {
   }
 }
 
-export { useApp, AppAction };
+interface AppState {
+  searchValue: string;
+  img: string;
+  trp: number;
+  posx: number;
+  posy: number;
+  blur: number;
+}
+
+interface AppAction {
+  type: string;
+  key?: string;
+  searchValue?: string;
+  img?: string;
+  trp?: number;
+  posx?: number;
+  posy?: number;
+  blur?: number;
+}
+
+const storage: Storage = (function () {
+  const str = localStorage.getItem("homepage");
+  if (str) return JSON.parse(str);
+  const obj: Storage = {
+    img: "https://images.unsplash.com/photo-1680100612420-e57b14dd2c7e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2564&q=80",
+    trp: 0,
+    posx: 50,
+    posy: 50,
+    blur: 0,
+  };
+  setStorage(obj);
+  return obj;
+})();
+
+export const AppContext: Context<AppState> = createContext({
+  ...storage,
+  searchValue: "",
+});
+
+const defaultDispatchValue = ({}: AppAction) => {};
+
+export const AppDispatchContext: Context<Dispatch<AppAction>> =
+  createContext(defaultDispatchValue);
+
+export function useAppState() {
+  return useContext(AppContext);
+}
+
+export function useAppDispatch() {
+  return useContext(AppDispatchContext);
+}

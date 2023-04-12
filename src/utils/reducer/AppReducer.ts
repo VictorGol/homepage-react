@@ -64,7 +64,7 @@ function useApp(draft: AppState, action: AppAction) {
     }
     case "bgl": {
       const img = action.img;
-      if (!img) return;
+      if (!img) break;
       updateStorage({ img });
       draft.img = img;
       break;
@@ -75,4 +75,4 @@ function useApp(draft: AppState, action: AppAction) {
   }
 }
 
-export { useApp };
+export { useApp, AppAction };

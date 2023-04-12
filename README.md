@@ -1,6 +1,6 @@
 # 介绍
 
-用react写的简单的主页，相当于标签存储器
+练习react，用react写的简单的主页
 
 node版本：18.14.1
 
@@ -102,4 +102,3 @@ input框设置outline为none时，如果给背景用backdropFilter设置模糊�
 
 请教了chatgpt帮我优化了代码，好看了许多
 
-和纯用三剑客来写相比，要运行打包后的index.html，不能在浏览器直接打开index.html，只能起一个服务，各有优劣。不过用react写肯定更快就是了。

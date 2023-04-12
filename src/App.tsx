@@ -5,6 +5,7 @@ import React from "react";
 import { useImmerReducer } from "use-immer";
 import { Storage, setStorage, fileImport } from "./utils/common";
 import { useApp } from "./utils/reducer";
+import { appContext } from "./utils/context";
 
 export default function App() {
   const [state, dispatch] = useImmerReducer(useApp, {
@@ -43,6 +44,8 @@ export default function App() {
     backdropFilter: `blur(${blur}px)`,
   };
 
+  const provideValue = { searchValue, dispatch };
+
   return (
     <div
       className="app"
@@ -51,15 +54,17 @@ export default function App() {
       onClick={handleClick}
     >
       <div className="app-wrap" style={bgWrap}>
-        <SearchBar searchValue={searchValue} dispatch={dispatch} />
-        <DisplayBar searchValue={searchValue} />
+        <appContext.Provider value={provideValue}>
+          <SearchBar />
+          <DisplayBar />
+        </appContext.Provider>
       </div>
     </div>
   );
 }
 
-const storage = (function () {
-  const str = localStorage.getItem("homepage") as string;
+const storage: Storage = (function () {
+  const str = localStorage.getItem("homepage");
   if (str) return JSON.parse(str);
   const obj: Storage = {
     img: "https://images.unsplash.com/photo-1680100612420-e57b14dd2c7e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2564&q=80",

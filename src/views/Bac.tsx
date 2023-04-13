@@ -1,11 +1,12 @@
 import "./css/bac.css";
-import React from "react";
+import React, { useRef } from "react";
 import { fileImport } from "../utils/common";
 import { useAppState, useAppDispatch } from "../utils/context/appContext";
 
 export default function Bac({ children }) {
   const { searchValue, img, trp, posx, posy, blur } = useAppState();
   const dispatch = useAppDispatch();
+  const inputBox = useRef(document.getElementsByTagName("input")[0]);
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
     if (e.key === "Enter" && searchValue.trim() === "bgl") {
@@ -19,11 +20,6 @@ export default function Bac({ children }) {
     dispatch({ type: "keydown", key: e.key });
   };
 
-  function handleClick() {
-    const input = document.getElementsByTagName("input")[0];
-    input.focus();
-  }
-
   const bgStyle: React.CSSProperties = {
     backgroundImage: `url(${img})`,
     backgroundRepeat: "no-repeat",
@@ -36,12 +32,13 @@ export default function Bac({ children }) {
     backgroundColor: `rgba(0,0,0,${trp})`,
     backdropFilter: `blur(${blur}px)`,
   };
+
   return (
     <div
       className="app"
       style={bgStyle}
       onKeyDown={handleKeyDown}
-      onClick={handleClick}
+      onClick={() => inputBox.current.focus()}
     >
       <div className="app-wrap" style={bgWrap}>
         {children}

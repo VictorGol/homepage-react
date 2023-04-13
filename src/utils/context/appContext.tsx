@@ -1,5 +1,5 @@
 import React, { Context, Dispatch, createContext, useContext } from "react";
-import { useImmerReducer } from "use-immer";
+import { ImmerReducer, useImmerReducer } from "use-immer";
 import {
   setStorage,
   Storage,
@@ -8,8 +8,8 @@ import {
   updateSetting,
 } from "../common";
 
-export function AppProvider({ children }) {
-  const [state, dispatch] = useImmerReducer(useApp, {
+function AppProvider({ children }) {
+  const [state, dispatch] = useImmerReducer<AppState, AppAction>(useApp, {
     ...storage,
     searchValue: "",
   });
@@ -23,7 +23,38 @@ export function AppProvider({ children }) {
   );
 }
 
-function useApp(draft: AppState, action: AppAction) {
+function useAppState() {
+  return useContext(AppContext);
+}
+
+function useAppDispatch() {
+  return useContext(AppDispatchContext);
+}
+
+interface AppState {
+  img: string;
+  trp: number;
+  posx: number;
+  posy: number;
+  blur: number;
+  searchValue: string;
+}
+
+interface AppAction {
+  searchValue?: string;
+  type: string;
+  key?: string;
+  img?: string;
+  trp?: number;
+  posx?: number;
+  posy?: number;
+  blur?: number;
+}
+
+const useApp: ImmerReducer<AppState, AppAction> = (
+  draft: AppState,
+  action: AppAction
+) => {
   switch (action.type) {
     case "searchValueChange": {
       draft.searchValue = action.searchValue ?? "";
@@ -76,27 +107,7 @@ function useApp(draft: AppState, action: AppAction) {
       throw Error("Unknown action: " + action.type);
     }
   }
-}
-
-interface AppState {
-  searchValue: string;
-  img: string;
-  trp: number;
-  posx: number;
-  posy: number;
-  blur: number;
-}
-
-interface AppAction {
-  type: string;
-  key?: string;
-  searchValue?: string;
-  img?: string;
-  trp?: number;
-  posx?: number;
-  posy?: number;
-  blur?: number;
-}
+};
 
 const storage: Storage = (function () {
   const str = localStorage.getItem("homepage");
@@ -112,20 +123,13 @@ const storage: Storage = (function () {
   return obj;
 })();
 
-export const AppContext: Context<AppState> = createContext({
+const AppContext: Context<AppState> = createContext({
   ...storage,
   searchValue: "",
 });
 
-const defaultDispatchValue = ({}: AppAction) => {};
-
-export const AppDispatchContext: Context<Dispatch<AppAction>> =
+const defaultDispatchValue: Dispatch<AppAction> = ({}: AppAction) => {};
+const AppDispatchContext: Context<Dispatch<AppAction>> =
   createContext(defaultDispatchValue);
 
-export function useAppState() {
-  return useContext(AppContext);
-}
-
-export function useAppDispatch() {
-  return useContext(AppDispatchContext);
-}
+export { AppProvider, useAppState, useAppDispatch };

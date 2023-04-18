@@ -515,6 +515,12 @@ const commands: Command[] = [
     desc: "",
   },
   {
+    name: "wallpaperflare",
+    link: "https://www.wallpaperflare.com",
+    tag: ["img"],
+    desc: "",
+  },
+  {
     name: "webstore-chrome",
     link: "https://chrome.google.com/webstore/category/extensions",
     tag: ["browser", "google"],

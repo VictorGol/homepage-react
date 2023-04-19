@@ -132,4 +132,4 @@ const defaultDispatchValue: Dispatch<AppAction> = ({}: AppAction) => {};
 const AppDispatchContext: Context<Dispatch<AppAction>> =
   createContext(defaultDispatchValue);
 
-export { AppProvider, useAppState, useAppDispatch };
+export { AppProvider, useAppState, useAppDispatch, AppState, AppAction };

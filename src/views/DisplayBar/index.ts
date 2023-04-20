@@ -1,5 +1,6 @@
 import { Command } from "../../utils/constant";
 
+// 处理命令
 function processCommands(commands: Command[], x: string) {
   return commands
     .map((item) => ({ ...item, tag: [...item.tag] }))

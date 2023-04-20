@@ -1,4 +1,4 @@
-import "./searchbar.css";
+import "./index.css";
 import React from "react";
 import { useAppState, useAppDispatch } from "../../utils/context/appContext";
 import { onSearchValueChange } from ".";

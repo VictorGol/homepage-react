@@ -9,9 +9,7 @@ function DisplayBar(): JSX.Element {
   const { searchValue } = useAppState();
 
   const x: string = searchValue.toLowerCase();
-
   const filterArr: Command[] = searchValue ? processCommands(commands, x) : [];
-
   const list: JSX.Element[] = filterArr.map((v) => (
     <div
       className="displaylist"

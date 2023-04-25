@@ -382,6 +382,12 @@ const commands: Command[] = [
   { name: "qidian", link: "https://www.qidian.com/", tag: ["read"], desc: "" },
   { name: "qqmusic", link: "https://y.qq.com/", tag: ["music"], desc: "" },
   {
+    name: "radix",
+    link: "https://www.radix-ui.com/",
+    tag: ["react", "component", "library"],
+    desc: "",
+  },
+  {
     name: "react",
     link: "https://react.dev/",
     tag: ["frontend", "ui-lib"],

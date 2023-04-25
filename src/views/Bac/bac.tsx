@@ -1,5 +1,5 @@
 import "./bac.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAppState, useAppDispatch } from "../../utils/context/appContext";
 import { generateInputElement, getCssStyle, useInput } from ".";
 
@@ -7,7 +7,7 @@ export default function Bac({ children }) {
   const input = useInput();
   const state = useAppState();
   const dispatch = useAppDispatch();
-  
+
   const { searchValue } = state;
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {

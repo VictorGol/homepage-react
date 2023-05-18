@@ -27,3 +27,11 @@
 .displaylist span {
   color: gold;
 }
+
+.displaybar a {
+  color: inherit;
+}
+
+.displaylist:hover a {
+  color: inherit;
+}

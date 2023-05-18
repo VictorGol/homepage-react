@@ -30,6 +30,7 @@
 
 .displaybar a {
   color: inherit;
+  font-weight: normal;
 }
 
 .displaylist:hover a {

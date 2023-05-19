@@ -31,6 +31,8 @@
 .displaybar a {
   color: inherit;
   font-weight: normal;
+  display: block;
+  width: 100%;
 }
 
 .displaylist:hover a {

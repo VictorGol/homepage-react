@@ -3,6 +3,7 @@
   margin: 1em 0;
   width: 20em;
   overflow: auto;
+  scrollbar-width: none;
 }
 
 .displaybar::-webkit-scrollbar {

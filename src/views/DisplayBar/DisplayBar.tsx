@@ -2,7 +2,8 @@ import "./displaybar.css";
 import React from "react";
 import { useAppState } from "../../utils/context/appContext";
 import { highLightStr } from "../../utils/comp";
-import { commands, Command } from "../../utils/constant";
+import { commands } from "../../utils/constant/index";
+import { Command } from "../../utils/constant/type";
 import { processCommands } from ".";
 
 function DisplayBar(): JSX.Element {

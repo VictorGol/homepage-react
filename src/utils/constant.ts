@@ -33,6 +33,12 @@ const commands: Command[] = [
     desc: "中文搜索引擎",
   },
   {
+    name: "bard",
+    link: "https://bard.google.com/",
+    tag: ["ai", "chat", "google"],
+    desc: "bard",
+  },
+  {
     name: "BgSub",
     link: "https://bgsub.cn/webapp/",
     tag: ["img"],
@@ -242,6 +248,12 @@ const commands: Command[] = [
     link: "https://www.iconfinder.com/",
     tag: [],
     desc: "",
+  },
+  {
+    name: "iconfont",
+    link: "https://www.iconfont.cn/",
+    tag: ["alibaba"],
+    desc: "阿里巴巴矢量图标库",
   },
   { name: "iconGo", link: "https://icongo.github.io", tag: [], desc: "" },
   {

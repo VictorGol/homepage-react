@@ -7,6 +7,7 @@ import {
   searchEngine,
   updateSetting,
 } from "../common";
+import { commands } from "../constant";
 
 function AppProvider({ children }) {
   const [state, dispatch] = useImmerReducer<AppState, AppAction>(useApp, {
@@ -81,13 +82,15 @@ const useApp: ImmerReducer<AppState, AppAction> = (
           } else if (x.startsWith("blur ") || x === "blur") {
             fn("blur", x.slice(5), 100);
           } else {
+            const item = commands.find((v) => v.name === x);
             const ind = x.indexOf(" ");
-            const url =
-              ind == -1
-                ? searchEngine.bing + x
-                : searchEngine[x.slice(0, ind)]
-                ? searchEngine[x.slice(0, ind)] + x.slice(ind + 1)
-                : searchEngine.bing + x;
+            const url = item
+              ? item.link
+              : ind == -1
+              ? searchEngine.bing + x
+              : searchEngine[x.slice(0, ind)]
+              ? searchEngine[x.slice(0, ind)] + x.slice(ind + 1)
+              : searchEngine.bing + x;
             window.open(url);
           }
         },

@@ -8,6 +8,7 @@ import {
   updateSetting,
 } from "../common";
 import { commands } from "../constant";
+import defaultBackground from "../constant/img";
 
 function AppProvider({ children }) {
   const [state, dispatch] = useImmerReducer<AppState, AppAction>(useApp, {
@@ -75,7 +76,9 @@ const useApp: ImmerReducer<AppState, AppAction> = (
         ArrowLeft: () => fn("posx", posx - 1, 100),
         ArrowRight: () => fn("posx", posx + 1, 100),
         Enter: () => {
-          if (x.startsWith("bg http")) {
+          if (x==="bg") {
+            fn("img", defaultBackground);
+          }else if (x.startsWith("bg http")) {
             fn("img", x.slice(3));
           } else if (x.startsWith("trp ") || x === "trp") {
             fn("trp", x.slice(4), 1);
@@ -116,7 +119,7 @@ const storage: Storage = (function () {
   const str = localStorage.getItem("homepage");
   if (str) return JSON.parse(str);
   const obj: Storage = {
-    img: "https://images.unsplash.com/photo-1680100612420-e57b14dd2c7e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2564&q=80",
+    img: defaultBackground,
     trp: 0,
     posx: 50,
     posy: 50,

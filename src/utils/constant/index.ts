@@ -57,8 +57,6 @@ const commands: Command[] = [
   ...zzz,
 ];
 
-for (let i in commands) {
-  commands[i].id = "c" + i;
-}
+commands.forEach((v, i) => (v.id = "c" + i));
 
 export { commands };

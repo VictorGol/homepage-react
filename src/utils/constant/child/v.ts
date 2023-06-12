@@ -20,6 +20,12 @@ const v: Command[] = [
     desc: "",
   },
   {
+    name: "vite",
+    link: "https://vitejs.dev/",
+    tag: ["evanyou", "buildtool"],
+    desc: "Next Generation Frontend Tooling",
+  },
+  {
     name: "vitepress",
     link: "https://vitepress.vuejs.org",
     tag: [],

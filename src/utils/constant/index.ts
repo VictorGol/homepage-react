@@ -22,7 +22,7 @@ import t from "./child/t";
 import u from "./child/u";
 import v from "./child/v";
 import w from "./child/w";
-// import x from "./child/x";
+import x from "./child/x";
 import y from "./child/y";
 import z from "./child/z";
 import zzz from "./child/zzz";
@@ -51,7 +51,7 @@ const commands: Command[] = [
   ...u,
   ...v,
   ...w,
-  // ...x,
+  ...x,
   ...y,
   ...z,
   ...zzz,

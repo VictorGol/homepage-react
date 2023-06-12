@@ -2,6 +2,12 @@ import { Command } from "../type";
 
 const n: Command[] = [
   {
+    name: "NaiveUI",
+    link: "https://www.naiveui.com/",
+    tag: [""],
+    desc: "A Vue 3 Component Library, Fairly Complete, Theme Customizable, Uses TypeScript, Fast",
+  },
+  {
     name: "nestjs",
     link: "https://www.nestjs.com",
     tag: ["framework"],

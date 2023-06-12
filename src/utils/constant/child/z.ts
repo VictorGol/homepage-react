@@ -21,7 +21,7 @@ const z: Command[] = [
   },
   {
     name: "zlibrary",
-    link: "https://singlelogin.me/",
+    link: "https://singlelogin.re/",
     tag: ["book", "read"],
     desc: "",
   },
